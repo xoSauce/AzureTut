@@ -1,6 +1,6 @@
 <html>
 <head>
-<Title>Registration Form</Title>
+<Title>Search Page</Title>
 <style type="text/css">
     body { background-color: #fff; border-top: solid 10px #000;
         color: #333; font-size: .85em; margin: 20; padding: 20;
@@ -16,13 +16,14 @@
 </style>
 </head>
 <body>
-<h1>Register here!</h1>
-<p>Fill in your name and email address, then click <strong>Submit</strong> to register.</p>
-<form method="post" action="index.php" enctype="multipart/form-data" >
+<h1>Search here!</h1>
+<p>Fill in `Name` or `Email address` or `Company name` or `Date` or any combination , then click <strong>Search</strong></p>
+<form method="post" action="search.php" enctype="multipart/form-data" >
       Name  <input type="text" name="name" id="name"/></br>
       Email <input type="text" name="email" id="email"/></br>
       Company name <input type="text" name="c_name" id="c_name"/></br>
-      <input type="submit" name="submit" value="Submit" />
+      Date <input type="text" name="date" id="date"/></br>
+      <input type="submit" name="Search" value="Search" />
 </form>
 <?php
     // Database=xosauceA6UNris7T;Data Source=eu-cdbr-azure-west-b.cloudapp.net;User Id=b2ab45a73f6565;Password=dc05f156
@@ -41,34 +42,27 @@
     catch(Exception $e){
         die(var_dump($e));
     }
-    // Insert registration info
-    if(!empty($_POST)) {
-    try {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $c_name = $_POST['c_name'];
-        $date = date("Y-m-d");
-        // Insert data
-        $sql_insert = "INSERT INTO registration_tbl (name, email, company_name, date) 
-                   VALUES (?,?,?,?)";
-        $stmt = $conn->prepare($sql_insert);
-        $stmt->bindValue(1, $name);
-        $stmt->bindValue(2, $email);
-        $stmt->bindValue(3, $c_name);
-        $stmt->bindValue(4, $date);
-        $stmt->execute();
-    }
-    catch(Exception $e) {
-        die(var_dump($e));
-    }
-    echo "<h3>Your're registered!</h3>";
-    }
     // Retrieve data
-    $sql_select = "SELECT * FROM registration_tbl";
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $c_name = $_POST["c_name"];
+    $date = $_POST["date"];
+   
+    $sql_select = "SELECT * FROM registration_tbl WHERE ";
+    if($name !='')
+          $sql_select .= "name = '$name' and ";
+    if($email !='')
+          $sql_select .= "email = '$email' and ";
+    if($c_name != '')
+          $sql_select .= "company_name = '$c_name' and ";
+    if($date != '')
+          $sql_select .= "date = '$date' and ";
+    $sql_select .= "1=1";
+    echo $sql_select;
     $stmt = $conn->query($sql_select);
     $registrants = $stmt->fetchAll(); 
     if(count($registrants) > 0) {
-        echo "<h2>People who are registered:</h2>";
+        echo "<h2>People who are registered who match your search:</h2>";
         echo "<table>";
         echo "<tr><th>Name</th>";
         echo "<th>Email</th>";
@@ -82,7 +76,7 @@
         }
         echo "</table>";
     } else {
-        echo "<h3>No one is currently registered.</h3>";
+        echo "<h3>No entries matching your search.</h3>";
     }
 ?>
 </body>
