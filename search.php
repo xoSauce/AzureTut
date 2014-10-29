@@ -79,5 +79,6 @@
         echo "<h3>No entries matching your search.</h3>";
     }
 ?>
+<a href="index.php"><button type="button">Go To registration page</button> </a>
 </body>
 </html>

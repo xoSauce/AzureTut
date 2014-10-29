@@ -24,6 +24,7 @@
       Company name <input type="text" name="c_name" id="c_name"/></br>
       <input type="submit" name="submit" value="Submit" />
 </form>
+
 <?php
     // Database=xosauceA6UNris7T;Data Source=eu-cdbr-azure-west-b.cloudapp.net;User Id=b2ab45a73f6565;Password=dc05f156
     // DB connection info
@@ -85,5 +86,7 @@
         echo "<h3>No one is currently registered.</h3>";
     }
 ?>
+
+<a href="search.php"><button type="button">Go To Search</button> </a>
 </body>
 </html>
