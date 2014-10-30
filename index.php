@@ -62,7 +62,7 @@
     catch(Exception $e) {
         die(var_dump($e));
     }
-    echo "<h3>Your're registered!</h3>";
+    echo "<h3>Your're registered now!!!!!!!!</h3>";
     }
     // Retrieve data
     $sql_select = "SELECT * FROM registration_tbl";
